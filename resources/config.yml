@@ -1,0 +1,66 @@
+## Tablisknu Config
+
+# For reference, 20 ticks = 1 second.
+
+# This is used when attempting to fix a bug in Tablisknu.
+# This option controls which Tablisknu packages debug information will be printed from.
+# This option does not change anything other than changing what is printed to the console.
+# If you are not currently in the process of fixing a bug in Tablisknu,
+# and would like to remove console spam, set this option to [].
+
+debug: []
+
+# This is used when a player is hidden in some other player's tablist.
+# When a player that is hidden in another player's tablist needs to be spawned for that player,
+# (ex. if they are teleporting from faraway to somewhere near that player)
+# they need to be temporarily added to that player's tablist.
+# However, if they are removed from the tablist too quickly after being temporarily added,
+# then their skin will not render properly.
+# This option controls the amount of time (in ticks) before re-removing the player from the other player's tablist.
+# Generally you want this to be as small as possible
+# so that players aren't seeing things in tablist they shouldn't be seeing for too long,
+# but you want to make it long enough so that players' skins render properly.
+# The 10 ticks default is usually good, but depending on your server you may need to go above 10 ticks.
+# Going below 10 ticks will most likely cause skin rendering issues, though you can try if you like.
+tablist_remove_tab_delay_spawn: 10
+
+# This is the same as the above option, but for when a player is respawning after dying or switching between worlds,
+# and some player is hidden in that player's tablist. In this case those two players could be the same player.
+# Here the default ticks is higher (40 ticks) as teleporting between worlds takes more time than teleporting in the same world.
+tablist_remove_tab_delay_respawn: 40
+
+# This is the amount of ticks to wait before applying default group tab modifications to a newly joined player.
+# Default group tab modifications are the ones that you apply
+# when you use tablist syntaxes without specifying a player or tablist group.
+# They apply to all players and need to be applied to newly joined players as well.
+# However, tablist modifications should not be applied immediately to newly joined players,
+# and so there must be some kind of delay. The default delay is 20 ticks.
+# If any of your scripts apply tablist modifications to players on join, they should also use a similar delay.
+tablist_add_to_default_group_delay: 40
+
+# If this is true, then results from retrieving skins by offline player and UUID will be cached.
+# This means that they will be stored temporarily
+# so that they can be recalled immediately if an identical retrieval is repeated.
+# Caching is useful as Mojang only allows a particular client to retrieve the skin of an offline player/UUID once every minute,
+# meaning that if you attempt to retrieve it twice in a short amount of time the second retrieval would fail.
+# This doesn't mean however that you should automatically set the expire time to 1 minute,
+# as it's also good to limit the amount of unnecessary web requests that are being made by your server,
+# especially if you are retrieving skins often.
+enable_offline_skin_cache: true
+
+# If the 'enable_offline_skin_cache' option is set to true,
+# this option determines how long (in minutes) to store retrieved UUID/offlineplayer skins.
+# If Skript has not attempted to retrieve the skin of a certain offline player in this amount of time,
+# their skin is removed from the cache.
+# Setting this option to 0 is equivalent to setting the 'enable_offline_skin_cache' option to false.
+# Setting this option to -1 means that the expire time will be infinite.
+# The default value of this option is 30 (minutes).
+offline_skin_cache_expire_time_minutes: 30
+
+# If the 'enable_offline_skin_cache' option is set to true,
+# this option determines the maximum amount of UUID/offlineplayer skins that can be stored.
+# If the maximum is exceeded, then skins are removed according to which one hasn't been retrieved in the most time.
+# Setting this option to 0 is equivalent to setting the 'enable_offline_skin_cache' option to false.
+# Setting this option to -1 means that there will be no limit to the amount of skins that can be stored in the cache.
+# The default value of this option is 500.
+offline_skin_cache_max_size: 500
