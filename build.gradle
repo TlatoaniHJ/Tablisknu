@@ -11,17 +11,14 @@ buildscript {
 apply plugin: 'us.tlatoani.mundocore'
 
 group 'us.tlatoani'
-version '1.0-BETA.3'
+version '1.0-BETA.4'
 
 description  = "A Skript addon that allows Skripters to control and change the Minecraft tablist "
 description += "as well as manipulate skins to change the displayed skins of players, player heads, and tablist icons."
 
 mundo {
-    versionSummary  = "This beta version makes Tablisknu 1.13 only. "
-    versionSummary += "All skull related stuff is now referred to as player head stuff, "
-    versionSummary += "and syntaxes that dealt with skulltypes have been removed "
-    versionSummary += "as different skulltypes are now different materials. "
-    versionSummary += "You can now also update Tablisknu using the '/tablisknu update' command."
+    versionSummary  = "This beta version updates a lot of Tablisknu's documentation, "
+    versionSummary += "mostly related to the previously undocumented Tablist Group feature."
 
     coreModules(
             'Base:1.0-BETA.14',
@@ -31,7 +28,7 @@ mundo {
             'PropertyExpression:1.0-BETA.0',
             'Util:1.0-BETA.2',
             'Reflection:1.0-BETA.1',
-            'Updating:1.0-BETA.7'
+            'Updating:1.0-BETA.12'
     )
     spigot '1.13.1-R0.1-SNAPSHOT'
     protocolLib '4.4.0-SNAPSHOT'
