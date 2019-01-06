@@ -24,7 +24,7 @@ mundo {
     versionSummary += "You can now also update Tablisknu using the '/tablisknu update' command."
 
     coreModules(
-            'Base:1.0-BETA.13',
+            'Base:1.0-BETA.14',
             'Registration:1.0-BETA.3',
             'ReflectiveRegistration:1.0-BETA.2',
             'Enum:1.0-BETA.2',
