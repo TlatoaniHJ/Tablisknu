@@ -1,6 +1,7 @@
 package us.tlatoani.tablisknu;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.util.Version;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,17 +27,20 @@ public class Tablisknu extends MundoAddon {
     public static final Config.Option<Integer> TABLIST_REMOTE_TAB_DELAY_SPAWN = Config.option("tablist_remove_tab_delay_spawn", FileConfiguration::getInt);
     public static final Config.Option<Integer> TABLIST_REMOTE_TAB_DELAY_RESPAWN = Config.option("tablist_remove_tab_delay_respawn", FileConfiguration::getInt);
     public static final Config.Option<Integer> TABLIST_ADD_TO_DEFAULT_GROUP_DELAY = Config.option("tablist_add_to_default_group_delay", FileConfiguration::getInt);
+    public static final Config.Option<Boolean> DISPLAY_TABLIST_SYNTAX_WARNING = Config.option("display_tablist_syntax_warning", FileConfiguration::getBoolean);
 
     public static final Config.Option<Boolean> ENABLE_OFFLINE_SKIN_CACHE = Config.option("enable_offline_skin_cache", FileConfiguration::getBoolean);
     public static final Config.Option<Integer> OFFLINE_SKIN_CACHE_EXPIRE_TIME_MINUTES = Config.option("offline_skin_cache_expire_time_minutes", FileConfiguration::getInt);
     public static final Config.Option<Integer> OFFLINE_SKIN_CACHE_MAX_SIZE = Config.option("offline_skin_cache_max_size", FileConfiguration::getInt);
 
+    public final static Version MINIMUM_PROTOCOLLIB_VERSION = new Version(4, 4);
+
     public Tablisknu() {
         super(
                 "tablisknu",
-                ChatColor.DARK_GREEN,
-                ChatColor.GREEN,
-                ChatColor.AQUA
+                ChatColor.DARK_AQUA,
+                ChatColor.AQUA,
+                ChatColor.GOLD
         );
         link("Metrics", "https://bstats.org/plugin/bukkit/Tablisknu");
     }
@@ -45,14 +49,11 @@ public class Tablisknu extends MundoAddon {
     public void onEnable() {
         super.onEnable();
 
-        String protocolLibVersion = Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion();
-        if (!protocolLibVersion.startsWith("4")
-                || protocolLibVersion.startsWith("4.0")
-                || protocolLibVersion.startsWith("4.1")
-                || protocolLibVersion.startsWith("4.2")
-                || protocolLibVersion.startsWith("4.3")) {
+        Version protocolLibVersion =
+                new Version(Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion());
+        if (protocolLibVersion.isSmallerThan(MINIMUM_PROTOCOLLIB_VERSION)) {
             Logging.info("Your version of ProtocolLib is " + protocolLibVersion);
-            Logging.info("Tablisknu requires that you run at least version 4.4.0 of ProtocolLib");
+            Logging.info("Tablisknu requires that you run at least version 4.4 of ProtocolLib");
         }
 
         Documentation.load();
@@ -60,8 +61,8 @@ public class Tablisknu extends MundoAddon {
         ProfileManager.load();
         TablistManager.load();
 
-        Registration.register("PlayerHead", PlayerHeadMundo::load);
         Registration.register("Skin", SkinMundo::load);
+        Registration.register("PlayerHead", PlayerHeadMundo::load);
         Registration.register("Tablist", TablistMundo::load);
         Registration.register("ArrayTablist", ArrayTablistMundo::load);
         Registration.register("TablistGroup", TablistGroupMundo::load);

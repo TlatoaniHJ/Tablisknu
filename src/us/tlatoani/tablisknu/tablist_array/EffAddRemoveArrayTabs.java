@@ -9,6 +9,7 @@ import us.tlatoani.tablisknu.tablist.ArrayTablist;
 import us.tlatoani.tablisknu.tablist.TablistProvider;
 import us.tlatoani.tablisknu.tablist.Tablist;
 import org.bukkit.event.Event;
+import us.tlatoani.tablisknu.tablist_general.TablistMundo;
 
 import java.util.Optional;
 
@@ -63,6 +64,9 @@ public class EffAddRemoveArrayTabs extends Effect {
         addendExpression = Optional.ofNullable((Expression<Number>) expressions[0]);
         iconExpression = add ? Optional.ofNullable((Expression<Skin>) expressions[1]) : Optional.empty();
         tablistProvider = TablistProvider.of(expressions, add ? 2 : 1);
+        TablistMundo.printTablistSyntaxWarning(
+                "Using tablist dimensions other than 4 rows and 20 columns",
+                "use the default tablist dimensions of 4 rows and 20 columns");
         return true;
     }
 }

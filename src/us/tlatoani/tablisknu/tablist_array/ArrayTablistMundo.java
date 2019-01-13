@@ -19,6 +19,7 @@ public class ArrayTablistMundo {
                         + "When enabling, you can specify the amount of columns (defaults to 4), the amount of rows (defaults to 20), "
                         + "and the initial icon (defaults to a white texture). "
                         + "See the Size of Array Tablist and Icon of Array Tab expressions for more info. "
+                        + "Note that it is recommended to use the default tablist dimensions of 4x20 to avoid issues with skins. "
                         + "If the array tablist is already enabled, it will be replaced with a blank one matching the new specifications. "
                         + "Note that when enabling the array tablist, all simple tabs will be removed and all player tabs will be hidden. "
                         + "When disabling the array tablist, all player tabs will be visible, "
@@ -53,7 +54,7 @@ public class ArrayTablistMundo {
                         "An expression for the amount of latency bars of the specified array tab in the specified or all tablist(s). "
                         + "This is always an integer between 0 and 5 (inclusive).");
         Registration.registerExpression(ExprIconOfArrayTab.class, Skin.class, ExpressionType.PROPERTY,
-                "[the] (head|icon|player_head) of [the] [array] tab %number%, %number% " + TablistMundo.FOR_TABLIST_OWNER)
+                "[the] (head|icon|skull) of [the] [array] tab %number%, %number% " + TablistMundo.FOR_TABLIST_OWNER)
                 .document("Icon of Array Tab", "1.0",
                         "An expression for either the icon of the specified array tab in the specified or all tablist(s).");
         Registration.registerExpression(ExprScoreOfArrayTab.class, Number.class, ExpressionType.PROPERTY,
@@ -62,7 +63,7 @@ public class ArrayTablistMundo {
                         "An expression for the score of the specified array tab in the specified or all tablist(s).");
         Registration.registerExpression(ExprDimensionOfArrayTablist.class, Number.class, ExpressionType.PROPERTY,
                 "[the] amount of (0¦column|1¦row)s in " + TablistMundo.TABLIST_OWNER_POSSESSIVE + " [array] tablist[s]")
-                .document("Size of Array Tablist", "1.0",
+                .document("Dimension of Array Tablist", "1.0",
                         "An expression for the amount of rows or columns in the specified or all array tablist(s). "
                         + "There can be 1 to 4 columns."
                         + "For each amount of columns, there is a specified range for the amount of rows:"

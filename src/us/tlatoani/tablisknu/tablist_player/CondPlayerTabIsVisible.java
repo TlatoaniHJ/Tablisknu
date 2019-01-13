@@ -10,6 +10,7 @@ import us.tlatoani.tablisknu.tablist.TablistProvider;
 import us.tlatoani.tablisknu.tablist.Tablist;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import us.tlatoani.tablisknu.tablist_general.TablistMundo;
 
 /**
  * Created by Tlatoani on 8/13/17.
@@ -48,6 +49,7 @@ public class CondPlayerTabIsVisible extends SimpleExpression<Boolean> {
         tablistProvider = TablistProvider.of(expressions, 1);
         objectExpression = (Expression<Player>) expressions[0];
         positive = parseResult.mark == 0;
+        TablistMundo.printTablistSyntaxWarning("Hiding players in the tablist", null);
         return true;
     }
 

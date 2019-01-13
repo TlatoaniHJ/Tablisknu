@@ -11,6 +11,7 @@ import us.tlatoani.tablisknu.tablist.SimpleTablist;
 import us.tlatoani.tablisknu.tablist.Tablist;
 import us.tlatoani.tablisknu.tablist.TablistProvider;
 import org.bukkit.event.Event;
+import us.tlatoani.tablisknu.tablist_general.TablistMundo;
 
 /**
  * Created by Tlatoani on 8/11/16.
@@ -43,6 +44,7 @@ public class CondPlayerTabsAreVisible extends SimpleExpression<Boolean> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         tablistProvider = TablistProvider.of(expressions, 0);
         positive = parseResult.mark == 0;
+        TablistMundo.printTablistSyntaxWarning("Hiding players in the tablist", null);
         return true;
     }
 

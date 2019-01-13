@@ -42,21 +42,27 @@ public class EffRetrieveSkin extends Effect {
                     timeoutMillis,
                     skin -> afterRetrieval(event, skin)
             );
-        } else {
+        } else if (mode == RetrieveMode.UUID || mode == RetrieveMode.OFFLINE_PLAYER) {
             OfflinePlayer offlinePlayer;
             if (mode == RetrieveMode.UUID) {
                 offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(stringExpr.getSingle(event)));
             } else {
                 offlinePlayer = offlinePlayerExpr.getSingle(event);
             }
-            if (offlinePlayer.isOnline()) {
-                Skin skin = ProfileManager.getProfile(offlinePlayer.getPlayer()).getActualSkin();
-                if (skin != null) {
-                    variable.change(event, new Skin[]{skin}, Changer.ChangeMode.SET);
-                    return getNext();
+            if (Bukkit.getOnlineMode()) {
+                if (offlinePlayer.isOnline()) {
+                    Skin skin = ProfileManager.getProfile(offlinePlayer.getPlayer()).getActualSkin();
+                    if (skin != null && !Skin.EMPTY.equals(skin)) {
+                        variable.change(event, new Skin[]{skin}, Changer.ChangeMode.SET);
+                        return getNext();
+                    }
                 }
+                PlayerSkinRetrieval.retrieveSkinFromUUID(
+                        offlinePlayer.getUniqueId(), timeoutMillis, skin -> afterRetrieval(event, skin));
+            } else {
+                PlayerSkinRetrieval.retrieveSkinFromName(
+                        offlinePlayer.getName(), timeoutMillis, skin -> afterRetrieval(event, skin));
             }
-            PlayerSkinRetrieval.retrieveSkinFromUUID(offlinePlayer.getUniqueId(), timeoutMillis, skin -> afterRetrieval(event, skin));
         }
         return null;
     }

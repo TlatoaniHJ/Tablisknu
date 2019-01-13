@@ -1,9 +1,11 @@
 package us.tlatoani.tablisknu.tablist;
 
+import ch.njol.skript.util.Color;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.google.common.collect.ImmutableList;
+import us.tlatoani.tablisknu.skin.FullColorSkins;
 import us.tlatoani.tablisknu.util.PacketUtil;
 import us.tlatoani.tablisknu.skin.Skin;
 import us.tlatoani.tablisknu.util.Invalidatable;
@@ -40,7 +42,7 @@ public class Tablist {
     private SupplementaryTablist supplementaryTablist = new SimpleTablist(playerTablist);
 
 
-    public static final Skin DEFAULT_SKIN_TEXTURE = Skin.ALL_WHITE;
+    public static final Skin DEFAULT_SKIN_TEXTURE = FullColorSkins.of(Color.WHITE);
     public static final String OBJECTIVE_NAME = "MundoSK_Tablist";
 
     /**

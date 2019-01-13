@@ -1,8 +1,10 @@
 package us.tlatoani.tablisknu.tablist_general;
 
+import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.lang.ExpressionType;
 import us.tlatoani.mundocore.registration.Registration;
+import us.tlatoani.tablisknu.Tablisknu;
 import us.tlatoani.tablisknu.skin.Skin;
 
 /**
@@ -23,8 +25,8 @@ public class TablistMundo {
                         "Enables or disables scores in the specified or all tablist(s)."
                         + "This only applies to scores using MundoSK's tablist syntaxes.");
         Registration.registerExpression(ExprDefaultIcon.class, Skin.class, ExpressionType.PROPERTY,
-                "[the] (initial|default) (head|icon|player_head) (in|of) [the] tablist[s] " + OF_TABLIST_OWNER,
-                "[the] (intial|default) (head|icon|player_head) (in|of) " + TABLIST_OWNER_POSSESSIVE + " [array] tablist[s]")
+                "[the] (default|initial) (head|icon|skull) (in|of) [the] tablist[s] " + OF_TABLIST_OWNER,
+                "[the] (default|initial) (head|icon|skull) (in|of) " + TABLIST_OWNER_POSSESSIVE + " [array] tablist[s]")
                 .document("Default Tablist Icon", "1.0",
                         "This is the icon initally applied when creating tabs in an array tablist "
                         + "or when creating a simple tab without specifying the icon. ")
@@ -60,4 +62,12 @@ public class TablistMundo {
                         + "This only applies to enabling scores using MundoSK's tablist syntaxes.");
     }
 
+    public static void printTablistSyntaxWarning(String action, String solution) {
+        if (Tablisknu.DISPLAY_TABLIST_SYNTAX_WARNING.getCurrentValue()) {
+            Skript.warning(action + " may cause certain issues with the skins of the involved players not showing up correctly"
+                    + (solution == null ? "" : ", and if you don't want to deal with those issues you should " + solution)
+                    + ". You can disable this message by going to the Tablisknu config "
+                    + "and setting the 'display_tablist_syntax_warning' option to false.");
+        }
+    }
 }

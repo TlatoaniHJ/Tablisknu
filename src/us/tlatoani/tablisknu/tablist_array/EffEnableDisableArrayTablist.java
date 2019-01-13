@@ -11,6 +11,7 @@ import us.tlatoani.tablisknu.tablist.SimpleTablist;
 import us.tlatoani.tablisknu.tablist.Tablist;
 import us.tlatoani.tablisknu.tablist.TablistProvider;
 import org.bukkit.event.Event;
+import us.tlatoani.tablisknu.tablist_general.TablistMundo;
 
 import java.util.Optional;
 
@@ -66,6 +67,11 @@ public class EffEnableDisableArrayTablist extends Effect {
             columns = Optional.ofNullable((Expression<Number>) expressions[2]);
             rows = Optional.ofNullable((Expression<Number>) expressions[3]);
             iconExpression = Optional.ofNullable((Expression<Skin>) expressions[4]);
+        }
+        if (columns.isPresent() || rows.isPresent()) {
+            TablistMundo.printTablistSyntaxWarning(
+                    "Using tablist dimensions other than 4 rows and 20 columns",
+                    "use the default tablist dimensions of 4 rows and 20 columns");
         }
         return true;
     }

@@ -11,6 +11,7 @@ import us.tlatoani.tablisknu.tablist.SimpleTablist;
 import us.tlatoani.tablisknu.tablist.Tablist;
 import us.tlatoani.tablisknu.tablist.TablistProvider;
 import org.bukkit.event.Event;
+import us.tlatoani.tablisknu.tablist_general.TablistMundo;
 
 import java.util.Optional;
 
@@ -54,6 +55,9 @@ public class ExprDimensionOfArrayTablist extends SimpleExpression<Number> {
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
         tablistProvider = TablistProvider.of(expressions, 0);
         isColumns = parseResult.mark == 0;
+        TablistMundo.printTablistSyntaxWarning(
+                "Using tablist dimensions other than 4 rows and 20 columns",
+                "use the default tablist dimensions of 4 rows and 20 columns");
         return true;
     }
 

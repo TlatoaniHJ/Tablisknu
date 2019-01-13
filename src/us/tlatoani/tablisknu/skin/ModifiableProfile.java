@@ -32,7 +32,7 @@ public class ModifiableProfile {
         if (actualSkin == null) {
             actualSkin = Skin.fromGameProfile(WrappedGameProfile.fromPlayer(player));
             Logging.debug(this, "SKINTEXTURE GIVEN BY PROTOCOLLIB FOR PLAYER " + player.getName() + " = " + actualSkin);
-            if (actualSkin.toString().equals("[]")) {
+            if (Skin.EMPTY.equals(actualSkin)) {
                 actualSkin = null;
             }
         }

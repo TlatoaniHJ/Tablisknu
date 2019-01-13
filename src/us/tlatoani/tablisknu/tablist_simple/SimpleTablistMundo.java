@@ -22,7 +22,7 @@ public class SimpleTablistMundo {
                         + "[priority %-string%] "
                         + "[[display] name %-string%] "
                         + "[(ping|latency) [bars] %-number%] "
-                        + "[(head|icon|player_head) %-skin%] "
+                        + "[(head|icon|skull) %-skin%] "
                         + "[score %-number%]]")
                 .document("Create Simple Tab", "1.0",
                         "Creates a simple tab in the specified or all tablist(s) with the specified id and properties. "
@@ -49,7 +49,7 @@ public class SimpleTablistMundo {
                         + "with the specified id in the specified or all tablist(s). "
                         + "This is always between 0 and 5.");
         Registration.registerExpression(ExprIconOfSimpleTab.class, Skin.class, ExpressionType.PROPERTY,
-                "[the] (head|icon|player_head) of [the] simple tab %string% " + TablistMundo.FOR_TABLIST_OWNER)
+                "[the] (head|icon|skull) of [the] simple tab %string% " + TablistMundo.FOR_TABLIST_OWNER)
                 .document("Icon of Simple Tab", "1.0",
                         "An expression for the icon of the simple tab "
                         + "with the specified id in the specified or all tablist(s).");

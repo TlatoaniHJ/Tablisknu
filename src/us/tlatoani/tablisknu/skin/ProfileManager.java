@@ -6,8 +6,10 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import us.tlatoani.tablisknu.Tablisknu;
+import us.tlatoani.tablisknu.skin.retrieval.PlayerSkinRetrieval;
 import us.tlatoani.tablisknu.util.PacketUtil;
 import us.tlatoani.tablisknu.skin.ModifiableProfile.Specific;
 import us.tlatoani.tablisknu.tablist.TablistManager;
@@ -41,6 +43,12 @@ public class ProfileManager {
     public static void load() {
         loadReflectionStuff();
         loadPacketEvents();
+        Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onJoin(PlayerJoinEvent event) {
+                PlayerSkinRetrieval.onJoin(event.getPlayer());
+            }
+        }, Tablisknu.get());
         Bukkit.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onQuit(PlayerQuitEvent event) {

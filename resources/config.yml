@@ -10,6 +10,16 @@
 
 debug: []
 
+# This option decides whether Tablisknu displays a warning
+# when syntaxes are used that could cause players to be hidden in other player's (or their own) tablist.
+# This is because players being hidden in tablists can cause skin issues.
+# These issues can be mitigated be calibrating the values of
+# the 'tablist_remove_tab_delay_spawn' and 'tablist_remove_tab_delay_respawn' values,
+# but even then the issues might not necessarily be resolved 100%.
+# If you would like to use syntaxes that can cause players to be hidden in the tablist anyway,
+# you can set this option to false to get rid of the warning spam.
+display_tablist_syntax_warning: true
+
 # This is used when a player is hidden in some other player's tablist.
 # When a player that is hidden in another player's tablist needs to be spawned for that player,
 # (ex. if they are teleporting from faraway to somewhere near that player)
@@ -26,8 +36,8 @@ tablist_remove_tab_delay_spawn: 10
 
 # This is the same as the above option, but for when a player is respawning after dying or switching between worlds,
 # and some player is hidden in that player's tablist. In this case those two players could be the same player.
-# Here the default ticks is higher (40 ticks) as teleporting between worlds takes more time than teleporting in the same world.
-tablist_remove_tab_delay_respawn: 40
+# Here the default ticks is higher (50 ticks) as teleporting between worlds takes more time than teleporting in the same world.
+tablist_remove_tab_delay_respawn: 50
 
 # This is the amount of ticks to wait before applying default group tab modifications to a newly joined player.
 # Default group tab modifications are the ones that you apply

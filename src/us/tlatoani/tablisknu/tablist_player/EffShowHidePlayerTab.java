@@ -5,9 +5,11 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import us.tlatoani.tablisknu.tablist.Tablist;
+import us.tlatoani.tablisknu.tablist.TablistManager;
 import us.tlatoani.tablisknu.tablist.TablistProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import us.tlatoani.tablisknu.tablist_general.TablistMundo;
 
 /**
  * Created by Tlatoani on 10/20/16.
@@ -49,6 +51,9 @@ public class EffShowHidePlayerTab extends Effect {
         visible = parseResult.mark == 0;
         tablistProvider = TablistProvider.of(expressions, 1);
         objectsExpression = (Expression<Player>) expressions[0];
+        if (!visible) {
+            TablistMundo.printTablistSyntaxWarning("Hiding players in the tablist", null);
+        }
         return true;
     }
 }
