@@ -7,8 +7,11 @@ import us.tlatoani.mundocore.base.Logging;
 import us.tlatoani.mundocore.base.Scheduling;
 import us.tlatoani.mundocore.updating.HTTPClient;
 import us.tlatoani.tablisknu.skin.Skin;
+import us.tlatoani.tablisknu.skin.blueprint.SkinBlueprint;
 
+import javax.imageio.ImageIO;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
 /**
@@ -87,4 +90,22 @@ public class MineSkinRetrieval {
         JSONObject texture = (JSONObject) data.get("texture");
         return Skin.fromJSON(texture);
     }
+
+    /*
+    private static void uploadSkinBlueprint(SkinBlueprint blueprint, HTTPClient httpClient) throws IOException {
+        String boundary = Long.toHexString(System.currentTimeMillis());
+        String separator = "\r\n";
+        httpClient.connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+        OutputStream output = httpClient.getOutput();
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8), true);
+        writer.append("--").append(boundary).append(separator);
+        writer.append("Content-Disposition: form-data").append(separator);
+        writer.append("Content-Type: application/octet-stream").append(separator);
+        writer.append(separator).flush();
+        blueprint.write(output);
+        output.flush();
+        writer.append(separator).flush();
+        writer.append("--").append(boundary).append("--").append(separator).flush();
+    }
+    */
 }

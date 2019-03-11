@@ -15,7 +15,6 @@ import us.tlatoani.mundocore.registration.Registration;
 import us.tlatoani.tablisknu.skin.retrieval.EffRetrieveSkin;
 
 import java.io.StreamCorruptedException;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
@@ -47,7 +46,6 @@ public class SkinMundo {
                 Fields fields = new Fields();
                 fields.putObject("value", skin.value);
                 fields.putObject("signature", skin.signature);
-                fields.putObject("uuid", skin.uuid.toString());
                 return fields;
             }
 
@@ -61,13 +59,8 @@ public class SkinMundo {
                 try {
                     String value = (String) fields.getObject("value");
                     String signature = (String) fields.getObject("signature");
-                    String uuid = fields.contains("uuid") ? (String) fields.getObject("uuid") : null;
-                    Logging.debug(SkinMundo.class, "value: " + value + ", signature: " + signature + ", uuid: " + uuid);
-                    if (uuid == null) {
-                        return new Skin(value, signature);
-                    } else {
-                        return new Skin(value, signature, UUID.fromString(uuid));
-                    }
+                    Logging.debug(SkinMundo.class, "value: " + value + ", signature: " + signature);
+                    return new Skin(value, signature);
                 } catch (StreamCorruptedException | ClassCastException e) {
                     try {
                         String value = (String) fields.getObject("value");

@@ -108,7 +108,7 @@ public class PlayerSkinRetrieval {
             Logging.debug(PlayerSkinRetrieval.class, "JSON retrieved for UUID " + uuid + ": " + jsonObject);
             JSONArray properties = (JSONArray) jsonObject.get("properties");
             JSONObject property = (JSONObject) properties.get(0);
-            return Skin.fromJSON(property, uuid);
+            return Skin.fromJSON(property);
         } catch (IOException | ParseException | ClassCastException | NullPointerException e) {
             Logging.debug(PlayerSkinRetrieval.class, "Exception while retrieving skin for UUID " + uuid);
             Logging.debug(PlayerSkinRetrieval.class, e);

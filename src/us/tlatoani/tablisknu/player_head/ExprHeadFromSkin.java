@@ -37,7 +37,7 @@ public class ExprHeadFromSkin extends SimpleExpression<ItemStack> {
 
     @Override
     public String toString(Event event, boolean b) {
-        return "player_head from " + skinExpression + (ownerExpression == null ? "" : " with owner " + ownerExpression);
+        return "player head from " + skinExpression + (ownerExpression == null ? "" : " with owner " + ownerExpression);
     }
 
     @Override

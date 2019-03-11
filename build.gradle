@@ -11,16 +11,16 @@ buildscript {
 apply plugin: 'us.tlatoani.mundocore'
 
 group 'us.tlatoani'
-version '1.0-BETA.6'
+version '1.0-BETA.7'
 
 description  = "A Skript addon that allows Skripters to control and change the Minecraft tablist "
 description += "as well as manipulate skins to change the displayed skins of players, player heads, and tablist icons."
 
 mundo {
-    versionSummary  = "This beta version fixes the blue, black, and light blue full color skins, "
-    versionSummary += "adds the All Full Color Skins expression, "
-    versionSummary += "and adds a warning for syntaxes that can hide players in tablist, "
-    versionSummary += "as well as a config option to disable that warning."
+    versionSummary  = "This beta version fixes an issue with a player leaving and joining "
+    versionSummary += "causing stack traces in the console, "
+    versionSummary += "as well as an issue where local variables were reset after using the Retrieve Skin effect "
+    versionSummary += "on recent version of Skript 2.3, among other issues."
 
     coreModules(
             'Base:1.0-BETA.14',

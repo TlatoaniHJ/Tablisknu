@@ -27,13 +27,9 @@ public class Skin {
     public final UUID uuid; //Currently used to ensure uniqueness when creating a player_head using a skin
 
     public Skin(String value, String signature) {
-        this(value, signature, UUID.randomUUID());
-    }
-
-    public Skin(String value, String signature, UUID uuid) {
         this.value = Optional.ofNullable(value).orElse("");
         this.signature = Optional.ofNullable(signature).orElse("");
-        this.uuid = uuid;
+        this.uuid = UUID.nameUUIDFromBytes(this.value.getBytes());
     }
 
     public JSONObject toJSON() {
@@ -80,12 +76,8 @@ public class Skin {
         return new Skin((String) jsonObject.get("value"), (String) jsonObject.get("signature"));
     }
 
-    public static Skin fromJSON(JSONObject jsonObject, UUID uuid) {
-        return new Skin((String) jsonObject.get("value"), (String) jsonObject.get("signature"), uuid);
-    }
-
-    public static Skin fromWrappedSignedProperty(WrappedSignedProperty wrappedSignedProperty, UUID uuid) {
-        return new Skin(wrappedSignedProperty.getValue(), wrappedSignedProperty.getSignature(), uuid);
+    public static Skin fromWrappedSignedProperty(WrappedSignedProperty wrappedSignedProperty) {
+        return new Skin(wrappedSignedProperty.getValue(), wrappedSignedProperty.getSignature());
     }
 
     public static Skin fromGameProfile(WrappedGameProfile gameProfile) {
@@ -93,7 +85,7 @@ public class Skin {
         if (wrappedSignedProperties.length == 0) {
             return Skin.EMPTY;
         } else {
-            return fromWrappedSignedProperty(wrappedSignedProperties[0], gameProfile.getUUID());
+            return fromWrappedSignedProperty(wrappedSignedProperties[0]);
         }
     }
 }

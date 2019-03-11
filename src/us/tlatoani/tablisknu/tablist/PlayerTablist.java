@@ -47,13 +47,14 @@ public class PlayerTablist {
     //Used to force creation of a Tab in cases where no attributes of a player's display in the tablist have been modified
 
     /**
-     * Returns the {@link Tab} corresponding to {@code player} to be used to mainpulate the tab's attributes.
+     * Returns the {@link Tab} corresponding to {@code player} to be used to manipulate the tab's attributes.
      * If {@code player}'s tab is hidden, {@link Optional#empty()} is returned.
      * @param player The player whose tab is desired
      * @return An {@link Optional} containing the corresponding {@link Tab}, or {@link Optional#empty()} as specified above
      */
     public Optional<Tab> getTab(Player player) {
-        return tabs.flatMap(map -> map.computeIfAbsent(player, __ -> Optional.of(new PlayerTab(this, player))));
+        return tabs.flatMap(map ->
+                map.computeIfAbsent(player, __ -> Optional.of(new PlayerTab(this, player))));
     }
 
     /**
@@ -197,11 +198,15 @@ public class PlayerTablist {
      */
     public void applyChanges(PlayerTablist playerTablist) {
         OptionalUtil.consume(tabs, playerTablist::hideAllPlayers, tabMap ->
-                tabMap.forEach((player, tabOptional) ->
-                        OptionalUtil.consume(tabOptional, () -> playerTablist.hidePlayer(player), tab -> {
-                            playerTablist.showPlayer(player);
-                            tab.applyChanges(playerTablist.getTab(player).get());
-                        }))
+                tabMap.forEach((player, tabOptional) -> {
+                    if (!player.isOnline()) {
+                        return;
+                    }
+                    OptionalUtil.consume(tabOptional, () -> playerTablist.hidePlayer(player), tab -> {
+                        playerTablist.showPlayer(player);
+                        tab.applyChanges(playerTablist.getTab(player).get());
+                    });
+                })
         );
     }
 }

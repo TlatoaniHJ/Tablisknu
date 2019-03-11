@@ -10,6 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 import us.tlatoani.tablisknu.skin.ProfileManager;
 import us.tlatoani.tablisknu.skin.Skin;
+import us.tlatoani.tablisknu.util.LocalVariablesRestorer;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -33,14 +34,19 @@ public class EffRetrieveSkin extends Effect {
                 .map(Timespan::getMilliSeconds)
                 .map(Number::intValue)
                 .orElse(10000);
+        LocalVariablesRestorer localVariablesRestorer = new LocalVariablesRestorer(event);
         if (mode == RetrieveMode.FILE || mode == RetrieveMode.URL) {
             String path = stringExpr.getSingle(event);
+            if (path == null) {
+                return getNext();
+            }
+            localVariablesRestorer.removeVariables();
             MineSkinRetrieval.retrieveFromMineSkinAPI(
                     mode == RetrieveMode.FILE ? MineSkinRetrieval.Source.FILE : MineSkinRetrieval.Source.URL,
                     path,
                     steve ? MineSkinRetrieval.SkinFormat.STEVE : MineSkinRetrieval.SkinFormat.ALEX,
                     timeoutMillis,
-                    skin -> afterRetrieval(event, skin)
+                    skin -> afterRetrieval(event, skin, localVariablesRestorer)
             );
         } else if (mode == RetrieveMode.UUID || mode == RetrieveMode.OFFLINE_PLAYER) {
             OfflinePlayer offlinePlayer;
@@ -48,6 +54,9 @@ public class EffRetrieveSkin extends Effect {
                 offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(stringExpr.getSingle(event)));
             } else {
                 offlinePlayer = offlinePlayerExpr.getSingle(event);
+            }
+            if (offlinePlayer == null) {
+                return getNext();
             }
             if (Bukkit.getOnlineMode()) {
                 if (offlinePlayer.isOnline()) {
@@ -57,17 +66,20 @@ public class EffRetrieveSkin extends Effect {
                         return getNext();
                     }
                 }
+                localVariablesRestorer.removeVariables();
                 PlayerSkinRetrieval.retrieveSkinFromUUID(
-                        offlinePlayer.getUniqueId(), timeoutMillis, skin -> afterRetrieval(event, skin));
+                        offlinePlayer.getUniqueId(), timeoutMillis, skin -> afterRetrieval(event, skin, localVariablesRestorer));
             } else {
+                localVariablesRestorer.removeVariables();
                 PlayerSkinRetrieval.retrieveSkinFromName(
-                        offlinePlayer.getName(), timeoutMillis, skin -> afterRetrieval(event, skin));
+                        offlinePlayer.getName(), timeoutMillis, skin -> afterRetrieval(event, skin, localVariablesRestorer));
             }
         }
         return null;
     }
 
-    private void afterRetrieval(Event event, Skin skin) {
+    private void afterRetrieval(Event event, Skin skin, LocalVariablesRestorer localVariablesRestorer) {
+        localVariablesRestorer.restoreVariables();
         variable.change(event, new Skin[]{skin}, Changer.ChangeMode.SET);
         TriggerItem.walk(getNext(), event);
     }
