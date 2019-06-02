@@ -5,6 +5,7 @@ import ch.njol.skript.util.Version;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import us.tlatoani.mundocore.base.Config;
 import us.tlatoani.mundocore.base.Logging;
@@ -12,6 +13,7 @@ import us.tlatoani.mundocore.base.MundoAddon;
 import us.tlatoani.mundocore.registration.Documentation;
 import us.tlatoani.mundocore.registration.Registration;
 import us.tlatoani.mundocore.updating.Updating;
+import us.tlatoani.tablisknu.skin.FullColorSkins;
 import us.tlatoani.tablisknu.skin.ProfileManager;
 import us.tlatoani.tablisknu.skin.SkinMundo;
 import us.tlatoani.tablisknu.skin.retrieval.PlayerSkinRetrieval;
@@ -49,6 +51,7 @@ public class Tablisknu extends MundoAddon {
     public void onEnable() {
         super.onEnable();
 
+
         Version protocolLibVersion =
                 new Version(Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion());
         if (protocolLibVersion.isSmallerThan(MINIMUM_PROTOCOLLIB_VERSION)) {
@@ -56,6 +59,7 @@ public class Tablisknu extends MundoAddon {
             Logging.info("Tablisknu requires that you run at least version 4.4 of ProtocolLib");
         }
 
+        FullColorSkins.load();
         Documentation.load();
         Updating.load();
         ProfileManager.load();

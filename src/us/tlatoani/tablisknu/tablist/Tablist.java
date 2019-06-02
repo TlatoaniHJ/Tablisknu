@@ -1,19 +1,18 @@
 package us.tlatoani.tablisknu.tablist;
 
-import ch.njol.skript.util.Color;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.google.common.collect.ImmutableList;
-import us.tlatoani.tablisknu.skin.FullColorSkins;
-import us.tlatoani.tablisknu.util.PacketUtil;
-import us.tlatoani.tablisknu.skin.Skin;
-import us.tlatoani.tablisknu.util.Invalidatable;
+import org.bukkit.entity.Player;
 import us.tlatoani.mundocore.util.OptionalUtil;
 import us.tlatoani.tablisknu.packetwrapper.WrapperPlayServerPlayerListHeaderFooter;
 import us.tlatoani.tablisknu.packetwrapper.WrapperPlayServerScoreboardDisplayObjective;
 import us.tlatoani.tablisknu.packetwrapper.WrapperPlayServerScoreboardObjective;
-import org.bukkit.entity.Player;
+import us.tlatoani.tablisknu.skin.FullColorSkins;
+import us.tlatoani.tablisknu.skin.Skin;
+import us.tlatoani.tablisknu.util.Invalidatable;
+import us.tlatoani.tablisknu.util.PacketUtil;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -42,7 +41,7 @@ public class Tablist {
     private SupplementaryTablist supplementaryTablist = new SimpleTablist(playerTablist);
 
 
-    public static final Skin DEFAULT_SKIN_TEXTURE = FullColorSkins.of(Color.WHITE);
+    public static final Skin DEFAULT_SKIN_TEXTURE = FullColorSkins.of("white");
     public static final String OBJECTIVE_NAME = "MundoSK_Tablist";
 
     /**

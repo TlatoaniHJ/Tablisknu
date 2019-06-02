@@ -7,14 +7,8 @@ import ch.njol.util.Kleenean;
 import org.bukkit.event.Event;
 import org.eclipse.jdt.annotation.Nullable;
 
-import java.util.stream.Stream;
-
 public class ExprAllFullColorSkins extends SimpleExpression<Skin> {
-    private static final Skin[] value = Stream
-            .concat(
-                    FullColorSkins.SKRIPT.values().stream(),
-                    FullColorSkins.OTHER.values().stream())
-            .toArray(Skin[]::new);
+    private static final Skin[] value = FullColorSkins.getSkinMap().values().toArray(new Skin[0]);
 
     @Override
     protected Skin[] get(Event e) {

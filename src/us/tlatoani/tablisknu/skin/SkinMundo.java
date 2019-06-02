@@ -15,7 +15,6 @@ import us.tlatoani.mundocore.registration.Registration;
 import us.tlatoani.tablisknu.skin.retrieval.EffRetrieveSkin;
 
 import java.io.StreamCorruptedException;
-import java.util.stream.Stream;
 
 /**
  * Created by Tlatoani on 8/8/17.
@@ -110,13 +109,11 @@ public class SkinMundo {
                         + "it is a delayed effect and all code following the effect will also be delayed. "
                         + "Tablisknu uses the Mineskin API for retrieving skins based on image files and URLs.");
         Registration.registerExpression(ExprFullColorSkin.class, Skin.class, ExpressionType.PROPERTY,
-                Stream
-                        .concat(Stream.of("%color%"), FullColorSkins.OTHER.keySet().stream())
-                        .map(name -> name.toLowerCase() + " skin")
+                FullColorSkins.getSkinNames().stream()
+                        .map(name -> name.toLowerCase().replace('_', ' ') + " skin")
                         .toArray(String[]::new))
                 .document("Full Color Skin", "1.0",
-                        "An expression for a full color skin, "
-                        + "either of the specified color or of one of the explicit color options available.")
+                        "An expression for a full color skin.")
                 .example("set player's displayed skin to green skin")
                 .example("enable array tablist"
                         , "set icon of tab 1, 1 to blue skin");
