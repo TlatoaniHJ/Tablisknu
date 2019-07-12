@@ -4,21 +4,21 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/'}
     }
     dependencies {
-        classpath 'us.tlatoani:MundoCore-GradlePlugin:1.0-BETA.4-SNAPSHOT.17'
+        classpath 'us.tlatoani:MundoCore-GradlePlugin:1.0-BETA.4-SNAPSHOT.20'
     }
 }
 
 apply plugin: 'us.tlatoani.mundocore'
 
 group 'us.tlatoani'
-version '1.0-BETA.8'
+version '1.0-BETA.9'
 
 description  = "A Skript addon that allows Skripters to control and change the Minecraft tablist "
 description += "as well as manipulate skins to change the displayed skins of players, player heads, and tablist icons."
 
 mundo {
-    versionSummary  = "This beta version fixes an incompatibility issue with Skript 2.4, "
-    versionSummary += "and also corrects the white full color skin to actually being fully white."
+    versionSummary = "This beta version fixes an issue with the latest versions of Spigot 1.14.3, "
+    versionSummary += "as well as the yellow and white full color skins."
 
     coreModules(
             'Base:1.0-BETA.14',
@@ -28,11 +28,12 @@ mundo {
             'PropertyExpression:1.0-BETA.0',
             'Util:1.0-BETA.2',
             'Reflection:1.0-BETA.1',
-            'Updating:1.0-BETA.12'
+            'Updating:1.0-BETA.13'
     )
     spigot '1.13.1-R0.1-SNAPSHOT'
+    skript '2.4-alpha1'
     protocolLib '4.4.0-SNAPSHOT'
-    bStats '1.2'
+    bStats '1.5'
 
     command.description 'Basic information about Tablisknu, viewing documentation, reloading the config, and updating.'
 

@@ -68,7 +68,7 @@ public class EffEnableDisableArrayTablist extends Effect {
             rows = Optional.ofNullable((Expression<Number>) expressions[3]);
             iconExpression = Optional.ofNullable((Expression<Skin>) expressions[4]);
         }
-        if (columns.isPresent() || rows.isPresent()) {
+        if (enable && (columns.isPresent() || rows.isPresent())) {
             TablistMundo.printTablistSyntaxWarning(
                     "Using tablist dimensions other than 4 rows and 20 columns",
                     "use the default tablist dimensions of 4 rows and 20 columns");

@@ -13,6 +13,7 @@ import us.tlatoani.mundocore.base.MundoAddon;
 import us.tlatoani.mundocore.registration.Documentation;
 import us.tlatoani.mundocore.registration.Registration;
 import us.tlatoani.mundocore.updating.Updating;
+import us.tlatoani.tablisknu.blueprint.BlueprintMundo;
 import us.tlatoani.tablisknu.skin.FullColorSkins;
 import us.tlatoani.tablisknu.skin.ProfileManager;
 import us.tlatoani.tablisknu.skin.SkinMundo;
@@ -65,6 +66,7 @@ public class Tablisknu extends MundoAddon {
         ProfileManager.load();
         TablistManager.load();
 
+        Registration.register("Blueprint", BlueprintMundo::load);
         Registration.register("Skin", SkinMundo::load);
         Registration.register("PlayerHead", PlayerHeadMundo::load);
         Registration.register("Tablist", TablistMundo::load);

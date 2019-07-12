@@ -1,17 +1,16 @@
 package us.tlatoani.tablisknu.skin.retrieval;
 
+import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import us.tlatoani.mundocore.base.Logging;
 import us.tlatoani.mundocore.base.Scheduling;
 import us.tlatoani.mundocore.updating.HTTPClient;
+import us.tlatoani.tablisknu.blueprint.Blueprint;
 import us.tlatoani.tablisknu.skin.Skin;
-import us.tlatoani.tablisknu.skin.blueprint.SkinBlueprint;
 
-import javax.imageio.ImageIO;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
 /**
@@ -44,23 +43,10 @@ public class MineSkinRetrieval {
         public abstract HTTPClient httpClient(String path, SkinFormat skinFormat) throws IOException;
     }
 
-    enum SkinFormat {
-        STEVE(""),
-        ALEX("model=slim");
-
-        public final String skinOptions;
-
-        SkinFormat(String skinOptions) {
-            this.skinOptions = skinOptions;
-        }
-    }
-
     public static void retrieveFromMineSkinAPI(Source source, String path, SkinFormat skinFormat, int timeoutMillis, Consumer<Skin> callable) {
         Scheduling.async(() -> {
             Skin skin = skinFromMineSkinAPI(source, path, skinFormat, timeoutMillis);
-            Scheduling.sync(() -> {
-                callable.accept(skin);
-            });
+            Scheduling.sync(() -> callable.accept(skin));
         });
     }
 
@@ -84,28 +70,37 @@ public class MineSkinRetrieval {
         }
     }
 
+    public static void retrieveFromMineSkinAPIUsingBlueprint(Blueprint blueprint, int timeoutMillis, Consumer<Skin> callable) {
+        Scheduling.async(() -> {
+            try {
+                HTTPClient httpClient = HTTPClient
+                        .url(MINESKIN_UPLOAD_API, blueprint.format.skinOptions)
+                        .method("POST")
+                        .uploadData("tablisknu_blueprint.png", blueprint::write)
+                        .timeout(timeoutMillis);
+                int statusCode = httpClient.statusCode();
+                if (statusCode != 200) {
+                    Logging.debug(MineSkinRetrieval.class,
+                            "While retrieving skin from " + blueprint + ", status code = " + statusCode + " != 200, aborting");
+                    Logging.debug(MineSkinRetrieval.class, "Headers: " + httpClient.getHeaders());
+                    Scheduling.sync(() -> callable.accept(null));
+                } else {
+                    Skin skin = fromMineSkinInputStream(httpClient.getInput());
+                    Scheduling.sync(() -> callable.accept(skin));
+                }
+            } catch (IOException | ParseException | ClassCastException | NullPointerException e) {
+                Logging.debug(MineSkinRetrieval.class,
+                        "Exception occurred while retrieving skin from " + blueprint);
+                Logging.debug(MineSkinRetrieval.class, e);
+                Scheduling.sync(() -> callable.accept(null));
+            }
+        });
+    }
+
     private static Skin fromMineSkinInputStream(InputStream inputStream) throws IOException, ParseException {
         JSONObject jsonObject = (JSONObject) new JSONParser().parse(new InputStreamReader(inputStream));
         JSONObject data = (JSONObject) jsonObject.get("data");
         JSONObject texture = (JSONObject) data.get("texture");
         return Skin.fromJSON(texture);
     }
-
-    /*
-    private static void uploadSkinBlueprint(SkinBlueprint blueprint, HTTPClient httpClient) throws IOException {
-        String boundary = Long.toHexString(System.currentTimeMillis());
-        String separator = "\r\n";
-        httpClient.connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-        OutputStream output = httpClient.getOutput();
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8), true);
-        writer.append("--").append(boundary).append(separator);
-        writer.append("Content-Disposition: form-data").append(separator);
-        writer.append("Content-Type: application/octet-stream").append(separator);
-        writer.append(separator).flush();
-        blueprint.write(output);
-        output.flush();
-        writer.append(separator).flush();
-        writer.append("--").append(boundary).append("--").append(separator).flush();
-    }
-    */
 }

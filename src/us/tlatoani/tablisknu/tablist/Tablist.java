@@ -41,7 +41,7 @@ public class Tablist {
     private SupplementaryTablist supplementaryTablist = new SimpleTablist(playerTablist);
 
 
-    public static final Skin DEFAULT_SKIN_TEXTURE = FullColorSkins.of("white");
+    public static final Skin DEFAULT_SKIN_TEXTURE = FullColorSkins.of("black");
     public static final String OBJECTIVE_NAME = "MundoSK_Tablist";
 
     /**

@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -37,8 +38,9 @@ public class ProfileManager {
 
     private static Reflection.MethodInvoker CRAFT_PLAYER_GET_HANDLE = null;
     private static Reflection.MethodInvoker DEDICATED_PLAYER_LIST_MOVE_TO_WORLD = null;
-    private static Reflection.MethodInvoker CRAFT_WORLD_GET_HANDLE = null;
-    private static Reflection.FieldAccessor WORLD_SERVER_DIMENSION = null;
+    private static Object DIMENSION_MANAGER_OVERWORLD = null;
+    private static Object DIMENSION_MANAGER_NETHER = null;
+    private static Object DIMENSION_MANAGER_THE_END = null;
 
     public static void load() {
         loadReflectionStuff();
@@ -68,13 +70,10 @@ public class ProfileManager {
                     Location.class,
                     boolean.class
             );
-            CRAFT_WORLD_GET_HANDLE = Reflection.getTypedMethod(
-                    Reflection.getCraftBukkitClass("CraftWorld"), "getHandle",
-                    Reflection.getMinecraftClass("WorldServer"));
-            WORLD_SERVER_DIMENSION = Reflection.getField(
-                    Reflection.getMinecraftClass("WorldServer"), "dimension",
-                    Reflection.getMinecraftClass("DimensionManager")
-            );
+            Class<?> dimensionManagerClass = Reflection.getMinecraftClass("DimensionManager");
+            DIMENSION_MANAGER_OVERWORLD = Reflection.getStaticField(dimensionManagerClass, "OVERWORLD");
+            DIMENSION_MANAGER_NETHER = Reflection.getStaticField(dimensionManagerClass, "NETHER");
+            DIMENSION_MANAGER_THE_END = Reflection.getStaticField(dimensionManagerClass, "THE_END");
         } catch (Exception e) {
             Logging.reportException(ProfileManager.class, e);
         }
@@ -251,14 +250,28 @@ public class ProfileManager {
         Location playerLoc = new WorldLockedLocation(player.getLocation());
         Logging.debug(ProfileManager.class, "playerLoc = " + playerLoc);
         try {
-            Object worldHandle = CRAFT_WORLD_GET_HANDLE.invoke(player.getWorld());
-            Object dimensionManager =  WORLD_SERVER_DIMENSION.get(worldHandle);
             Logging.debug(ProfileManager.class, "DEDICATED_PLAYER_LIST_MOVE_TO_WORLD: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
             Logging.debug(ProfileManager.class, "NMS_SERVER: " + DEDICATED_PLAYER_LIST_MOVE_TO_WORLD);
-            DEDICATED_PLAYER_LIST_MOVE_TO_WORLD.invoke(Reflection.NMS_SERVER, CRAFT_PLAYER_GET_HANDLE.invoke(player), dimensionManager, true, playerLoc, true);
+            DEDICATED_PLAYER_LIST_MOVE_TO_WORLD.invoke(
+                    Reflection.NMS_SERVER,
+                    CRAFT_PLAYER_GET_HANDLE.invoke(player),
+                    dimensionToManager(playerLoc.getWorld().getEnvironment()),
+                    true,
+                    playerLoc,
+                    true
+            );
         } catch (Exception e) {
             Logging.debug(ProfileManager.class, "Failed to make player see his skin change: " + player.getName());
             Logging.reportException(ProfileManager.class, e);
         }
+    }
+
+    private static Object dimensionToManager(World.Environment dimension) {
+        switch (dimension) {
+            case NORMAL: return DIMENSION_MANAGER_OVERWORLD;
+            case NETHER: return DIMENSION_MANAGER_NETHER;
+            case THE_END: return DIMENSION_MANAGER_THE_END;
+        }
+        throw new IllegalArgumentException("Illegal dimension = null");
     }
 }

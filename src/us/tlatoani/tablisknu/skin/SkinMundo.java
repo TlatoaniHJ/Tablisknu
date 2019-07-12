@@ -94,8 +94,8 @@ public class SkinMundo {
         });
         Logging.debug(SkinMundo.class, "ClassInfo object for Skin.class: " + Classes.getExactClassInfo(Skin.class));
         Registration.registerEffect(EffRetrieveSkin.class,
-                "retrieve [(4¦slim)] skin from (0¦file|1¦url) %-string% [[with] timeout %-timespan%] into %object%",
-                "retrieve skin (2¦from uuid %-string%|3¦of %-offlineplayer%) [[with] timeout %-timespan%] into %object%")
+                "retrieve [(8¦slim)] skin from (0¦file|1¦url) %-string% [[with] timeout %-timespan%] into %object%",
+                "retrieve skin (2¦from uuid %-string%|3¦of %-offlineplayer%|4¦from blueprint %-blueprint%) [[with] timeout %-timespan%] into %object%")
                 .document("Retrieve Skin", "1.0",
                         "Retrieves a certain skin from online and places it into the specified variable "
                         + "(the object expression at the end). "
