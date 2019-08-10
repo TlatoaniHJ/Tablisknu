@@ -52,7 +52,6 @@ public class Tablisknu extends MundoAddon {
     public void onEnable() {
         super.onEnable();
 
-
         Version protocolLibVersion =
                 new Version(Bukkit.getPluginManager().getPlugin("ProtocolLib").getDescription().getVersion());
         if (protocolLibVersion.isSmallerThan(MINIMUM_PROTOCOLLIB_VERSION)) {
@@ -66,6 +65,7 @@ public class Tablisknu extends MundoAddon {
         ProfileManager.load();
         TablistManager.load();
 
+        Registration.setRequiredPlugins("ProtocolLib");
         Registration.register("Blueprint", BlueprintMundo::load);
         Registration.register("Skin", SkinMundo::load);
         Registration.register("PlayerHead", PlayerHeadMundo::load);
